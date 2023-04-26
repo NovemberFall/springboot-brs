@@ -138,7 +138,8 @@ public class BusReservationServiceImpl implements BusReservationService {
         Agency agency = getAgency(agencyDto.getCode());
         if (agency != null) {
             if (busDto != null) {
-                Optional<Bus> bus = Optional.ofNullable(busRepository.findByCodeAndAgency(busDto.getCode(), agency));
+                Optional<Bus> bus = Optional
+                        .ofNullable(busRepository.findByCodeAndAgency(busDto.getCode(), agency));
                 if (!bus.isPresent()) {
                     Bus busModel = new Bus()
                             .setAgency(agency)
@@ -306,7 +307,8 @@ public class BusReservationServiceImpl implements BusReservationService {
     public TripScheduleDto getTripSchedule(TripDto tripDto, String tripDate, boolean createSchedForTrip) {
         Optional<Trip> trip = tripRepository.findById(tripDto.getId());
         if (trip.isPresent()) {
-            Optional<TripSchedule> tripSchedule = Optional.ofNullable(tripScheduleRepository.findByTripDetailAndTripDate(trip.get(), tripDate));
+            Optional<TripSchedule> tripSchedule = Optional
+                    .ofNullable(tripScheduleRepository.findByTripDetailAndTripDate(trip.get(), tripDate));
             if (tripSchedule.isPresent()) {
                 return TripScheduleMapper.toTripScheduleDto(tripSchedule.get());
             } else {
@@ -362,13 +364,14 @@ public class BusReservationServiceImpl implements BusReservationService {
      * @return
      */
     private List<Trip> findTripsBetweenStops(String sourceStopCode, String destinationStopCode) {
-        Optional<Stop> sourceStop = Optional
-                .ofNullable(stopRepository.findByCode(sourceStopCode));
+        Optional<Stop> sourceStop = Optional.ofNullable(stopRepository.findByCode(sourceStopCode));
+
         if (sourceStop.isPresent()) {
             Optional<Stop> destStop = Optional
                     .ofNullable(stopRepository.findByCode(destinationStopCode));
             if (destStop.isPresent()) {
-                List<Trip> availableTrips = tripRepository.findAllBySourceStopAndDestStop(sourceStop.get(), destStop.get());
+                List<Trip> availableTrips =
+                        tripRepository.findAllBySourceStopAndDestStop(sourceStop.get(), destStop.get());
                 if (!availableTrips.isEmpty()) {
                     return availableTrips;
                 }
